@@ -1,5 +1,5 @@
 package org.wrongwrong.valueClass
 
-import io.github.projectmapk.jackson.module.kogera.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 val mapper = jacksonObjectMapper()

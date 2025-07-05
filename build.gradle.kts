@@ -13,18 +13,21 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven { setUrl("https://jitpack.io") }
+    maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
 val isCi: Boolean = System.getenv().containsKey("CI") // True when executed in GitHub Actions
 val ciFileName: String? = project.properties["fileName"] as String?
 
-val kogeraVersion = (project.properties["mapper"] as? String) ?: "2.19.0-beta25"
+val target = (project.properties["mapper"] as? String) ?: "2.20.0-d81fb82"
 val isSingleShot: Boolean = project.properties["isSingleShot"]?.let { (it as String).toBoolean() } ?: false
 
 dependencies {
     jmhImplementation(kotlin("reflect"))
 
-    jmhImplementation("com.github.ProjectMapK:jackson-module-kogera:$kogeraVersion")
+    // jmhImplementation("com.github.ProjectMapK:jackson-module-kogera:$target")
+    jmhImplementation("com.fasterxml.jackson.core:jackson-databind:2.20.0-SNAPSHOT")
+    jmhImplementation(files("./jars/jackson-module-kotlin-$target.jar"))
 
     testImplementation(kotlin("test"))
 }
@@ -33,7 +36,7 @@ tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(8)
 }
 
 fun JmhParameters.setThrptDetails() {
@@ -94,7 +97,7 @@ jmh {
         ciFileName!!
     } else {
         val dateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").format(LocalDateTime.now())
-        val targetDependency = kogeraVersion
+        val targetDependency = target
         listOf(dateTime, targetDependency, mode).joinToString(separator = "_")
     }
 

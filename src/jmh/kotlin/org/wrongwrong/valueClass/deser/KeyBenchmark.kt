@@ -1,6 +1,6 @@
 package org.wrongwrong.valueClass.deser
 
-import io.github.projectmapk.jackson.module.kogera.jacksonTypeRef
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Level
 import org.openjdk.jmh.annotations.Scope
