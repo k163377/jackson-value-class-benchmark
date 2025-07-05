@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        is-single-shot: [true]
+        is-single-shot: [true, false]
     timeout-minutes: 60
     name: "${{ (matrix.is-single-shot && 'ss') || 'thrpt' }}"
     steps:
@@ -39,8 +39,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Remove Old Reports
         run: |
-          find ./ci-reports/ -type f -name '*.txt' -delete 2>/dev/null || true
-          find ./ci-reports/ -type f -name '*.csv' -delete 2>/dev/null || true
+          find ./ci-reports/ -type f -name '*.txt' -delete
+          find ./ci-reports/ -type f -name '*.csv' -delete
       - name: Download reports
         uses: actions/download-artifact@v4
         with:
